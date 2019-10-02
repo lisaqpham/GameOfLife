@@ -3,13 +3,8 @@
 using namespace std;
 
 class Settings{
-  private:
-
-
   public:
-    int fileSet;
-    int outputSet;
-    int boundarySet;
+    int fileSet, outputSet, boundarySet;
     int dimX, dimY;
     double density;
     string inFile, outFile;

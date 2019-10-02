@@ -14,10 +14,8 @@ class Grid{
     int neighbors = 0;
     bool terminate = 0;
 
-    Grid();
     Grid(string path, int boundarySetting);
     Grid(int x, int y, double d, int boundarySetting);
-    ~Grid();
 
     int charToInt(char c);
     char intToChar(int i);

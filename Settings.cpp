@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// setting constructor
 Settings::Settings() {
   dimX = 0;
   dimY = 0;
@@ -12,6 +13,7 @@ Settings::Settings() {
   outFile = "";
 }
 
+// Starting Grid Settings
 int Settings::fileSettings(){
   cout << "\nHow would you like to set up your world?" << endl;
   cout << "   1: Setup using a map file" << endl;
@@ -29,6 +31,7 @@ int Settings::fileSettings(){
   }
 }
 
+// Random Setting
 void Settings::randomSet() {
   cout << "\nYou chose Random." << endl;
   cout << "Please specify the number of rows/columns and the population density: " << endl;
@@ -41,12 +44,14 @@ void Settings::randomSet() {
   cin  >> density;
 }
 
+// Map Setting
 void Settings::mapSet() {
   cout << "\nYou chose Map." << endl;
   cout << "Please specify the file path: " << endl;
   cin  >> inFile;
 }
 
+// Output Setting (what happens between iterations)
 int Settings::outputSettings(){
   cout << "\nGreat! Before we start, please configure your output settings." << endl;
   cout << "Would you like to: " << endl;
@@ -73,6 +78,7 @@ int Settings::outputSettings(){
   }
 }
 
+// Boundary Settings
 int Settings::boundarySettings(){
   cout << "\nHow would you like to set up your boundaries?" << endl;
   cout << "Choose a mode: " << endl;

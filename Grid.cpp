@@ -6,10 +6,7 @@
 
 using namespace std;
 
-Grid::Grid() {
-
-}
-
+// Map Given constructor
 Grid::Grid(string path, int boundarySetting) {
   ifstream infile(path);
   infile >> rows;
@@ -18,6 +15,7 @@ Grid::Grid(string path, int boundarySetting) {
   boundary = boundarySetting;
 }
 
+// Random constuctor
 Grid::Grid(int x, int y, double d, int boundarySetting) {
   rows = x;
   cols = y;
@@ -26,10 +24,7 @@ Grid::Grid(int x, int y, double d, int boundarySetting) {
   boundary = boundarySetting;
 }
 
-Grid::~Grid() {
-
-}
-
+// changes -,X to 0,1
 int Grid::charToInt(char c) {
   if (c == 'X') {
     return 1;
@@ -38,6 +33,7 @@ int Grid::charToInt(char c) {
   }
 }
 
+// changes 0,1 to -,X
 char Grid::intToChar(int i) {
   if (i == 1) {
     return 'X';
@@ -46,6 +42,7 @@ char Grid::intToChar(int i) {
   }
 }
 
+// converts given text file to int 2d-array
 int** Grid::fileToGrid(istream& infile) {
   char c;
   thisGen = new int*[rows];
@@ -59,6 +56,7 @@ int** Grid::fileToGrid(istream& infile) {
   return thisGen;
 }
 
+// converts 'random mode' settings to int 2d-array
 int** Grid::randToGrid() {
   thisGen = new int*[rows];
   for (int i = 0; i < rows; i++) {
@@ -70,6 +68,7 @@ int** Grid::randToGrid() {
   return thisGen;
 }
 
+// prints grid to terminal
 void Grid::printGrid(int** grid) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
@@ -79,6 +78,7 @@ void Grid::printGrid(int** grid) {
   }
 }
 
+// prints grid to given out file
 void Grid::printGridToFile(int** grid, ofstream& file) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
@@ -89,6 +89,7 @@ void Grid::printGridToFile(int** grid, ofstream& file) {
   file.flush();
 }
 
+// makes next generation based on current generation
 int** Grid::makeNext() {
   nextGen = new int*[rows];
   for (int i = 0; i < rows; i++) {
@@ -104,6 +105,7 @@ int** Grid::makeNext() {
   return nextGen;
 }
 
+// rules for Game of Life, returns whether current cell lives or dies
 int Grid::rules(int r, int c) {
   if (countNeighbors(r,c) == 2) {
     return thisGen[r][c];
@@ -114,9 +116,11 @@ int Grid::rules(int r, int c) {
   }
 }
 
+// counts surrounding neighbor based on boundary setting
 int Grid::countNeighbors(int r, int c) {
-  neighbors = 0;
-  if (boundary == 1) {
+  neighbors = 0; //initializes neighbor to 0
+
+  if (boundary == 1) { // Classic Mode
     for (int i = -1; i < 2; i++) {
       for (int j = -1; j < 2; j++) {
         if ((r+i) < 0 || (r+i) >= rows || (c+j) < 0 || (c+j) >= cols) {
@@ -126,7 +130,7 @@ int Grid::countNeighbors(int r, int c) {
         }
       }
     }
-  } else if (boundary == 2) {
+  } else if (boundary == 2) { // Doughnut Mode
     int nr, nc;
     for (int i = -1; i < 2; i++){
       for (int j = -1; j < 2; j++){
@@ -136,7 +140,7 @@ int Grid::countNeighbors(int r, int c) {
       }
     }
   } else {
-    if (r == 0 && c == 0) {
+    if (r == 0 && c == 0) { // Mirror Mode (brute forced due to time constraint)
       neighbors += 3*(thisGen[r][c]);
       neighbors += 2*(thisGen[r][c+1]);
       neighbors += 2*(thisGen[r+1][c]);
@@ -184,10 +188,12 @@ int Grid::countNeighbors(int r, int c) {
       }
     }
   }
+  // correction: methods for all modes count current cell, so we need to subtract
   neighbors -= thisGen[r][c];
   return neighbors;
 }
 
+// checks grid to see if this generation equals next generation aka stabilization
 bool Grid::checkStable() {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
