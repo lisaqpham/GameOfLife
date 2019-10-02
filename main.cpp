@@ -1,4 +1,3 @@
-//#include "FileHelper.h"
 #include "Grid.h"
 #include "Settings.h"
 #include <iostream>
