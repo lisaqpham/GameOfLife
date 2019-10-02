@@ -136,16 +136,52 @@ int Grid::countNeighbors(int r, int c) {
       }
     }
   } else {
-    if (r == 0 || r == rows - 1) {
+    if (r == 0 && c == 0) {
+      neighbors += 3*(thisGen[r][c]);
+      neighbors += 2*(thisGen[r][c+1]);
+      neighbors += 2*(thisGen[r+1][c]);
+      neighbors += thisGen[r+1][c+1];
+    } else if (r == 0 && c == cols - 1)  {
+      neighbors += 3*(thisGen[r][c]);
+      neighbors += 2*(thisGen[r][c-1]);
+      neighbors += 2*(thisGen[r+1][c]);
+      neighbors += thisGen[r+1][c-1];
+    } else if (r == rows - 1 && c == cols - 1) {
+      neighbors += 3*(thisGen[r][c]);
+      neighbors += 2*(thisGen[r][c-1]);
+      neighbors += 2*(thisGen[r-1][c]);
+      neighbors += thisGen[r-1][c-1];
+    } else if (r == rows - 1 && c == 0) {
+      neighbors += 3*(thisGen[r][c]);
+      neighbors += 2*(thisGen[r][c+1]);
+      neighbors += 2*(thisGen[r-1][c]);
+      neighbors += thisGen[r-1][c+1];
+    } else if (r == 0) {
       for (int j = -1; j < 2; j++) {
-        neighbors += 2(thisGen[r][c + j]);
+        neighbors += 2*(thisGen[r][c + j]);
+        neighbors += thisGen[r+1][c + j];
       }
-    } else if (c == 0 || c == cols - 1) {
+    } else if (r == rows - 1) {
+      for (int j = -1; j < 2; j++) {
+        neighbors += 2*(thisGen[r][c + j]);
+        neighbors += thisGen[r-1][c + j];
+      }
+    } else if (c == 0) {
       for (int i = -1; i < 2; i++) {
-        neighbors += 2(thisGen[r + 1][c]);
+        neighbors += 2*(thisGen[r + i][c]);
+        neighbors += thisGen[r + i][c+1];
+      }
+    } else if (c == cols - 1) {
+      for (int i = -1; i < 2; i++) {
+        neighbors += 2*(thisGen[r + i][c]);
+        neighbors += thisGen[r + i][c-1];
       }
     } else {
-      neighbors += thisGen[r+i][c+j];
+      for (int i = -1; i < 2 ; i++) {
+        for (int j = -1; j < 2; j++) {
+          neighbors += thisGen[r+i][c+j];
+        }
+      }
     }
   }
   neighbors -= thisGen[r][c];
